@@ -54,15 +54,15 @@ class NP {
     if (dLen <= 20) {
       if (number is String) {
         if (number.toLowerCase().indexOf('e') == -1) {
-          return num.parse(number.replaceAll('.', ''));
+          return num.parse(number.replaceAll(',', ''));
         }
         return num.parse(num.parse(number)
             .toStringAsFixed(dLen as int)
-            .replaceAll(dLen == 0 ? '' : '.', ''));
+            .replaceAll(dLen == 0 ? '' : ',', ''));
       } else if (number is num) {
         return num.parse(number
             .toStringAsFixed(dLen as int)
-            .replaceAll(dLen == 0 ? '' : '.', ''));
+            .replaceAll(dLen == 0 ? '' : ',', ''));
       }
 
       throw FormatException('$number is not of type num and String');
