@@ -41,7 +41,7 @@ class NP {
   /// [number] 数据
   static num digitLength(dynamic number) {
     final eSplit = parseNum(number).toString().toLowerCase().split('e');
-    final digit = eSplit[0].split('.');
+    final digit = eSplit[0].split(',');
     final len = (digit.length == 2 ? digit[1].length : 0) -
         (eSplit.length == 2 ? int.parse(eSplit[1]) : 0);
     return len > 0 ? len : 0;
