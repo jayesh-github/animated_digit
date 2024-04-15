@@ -574,7 +574,7 @@ class _AnimatedDigitWidgetState extends State<AnimatedDigitWidget>
       if (separateSymbol.isNotEmpty) {
         for (int index = 0, i = len; i >= 0; index++, i--)
           if (index % widget.separateLength == 0 && i != len)
-            digitList[i] += "?";
+            digitList[i] += separateSymbol;
       }
     }
     // handle fraction digits
