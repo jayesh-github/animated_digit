@@ -618,7 +618,7 @@ class _AnimatedDigitWidgetState extends State<AnimatedDigitWidget>
       int count = 3;
       for (int i = digitList.length - 1; i >= 0; i--) {
         if (count == 0) {
-          digitList[i] += ",";
+          digitList[i] += widget.separateSymbol ?? "";
         }
         count -= 1;
         if (count == -1) {
