@@ -570,11 +570,11 @@ class _AnimatedDigitWidgetState extends State<AnimatedDigitWidget>
         List.from(numSplitArr.first.characters, growable: false);
     if (widget.enableSeparator) {
       int len = digitList.length - 1;
-      final separateSymbol = ".";
+      final separateSymbol = widget.separateSymbol ?? ",";
       if (separateSymbol.isNotEmpty) {
         for (int index = 0, i = len; i >= 0; index++, i--)
           if (index % widget.separateLength == 0 && i != len)
-            digitList[i] += separateSymbol;
+            digitList[i] += "?";
       }
     }
     // handle fraction digits
