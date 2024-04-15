@@ -509,7 +509,7 @@ class _AnimatedDigitWidgetState extends State<AnimatedDigitWidget>
   }
 
   String _getFormatValueAsString() {
-    return _formatNum(
+    return getIndianNumberFormat(
       _value.toString(),
       fractionDigits: widget.fractionDigits,
     );
@@ -556,7 +556,51 @@ class _AnimatedDigitWidgetState extends State<AnimatedDigitWidget>
     _markNeedRebuild();
   }
 
-  String _formatNum(String numstr, {int fractionDigits = 2}) {
+  // String _formatNum(String numstr, {int fractionDigits = 2}) {
+  //   String result;
+  //   final String _numstr = isNegative ? numstr.replaceFirst("-", "") : numstr;
+  //   final List<String> numSplitArr = num.parse(_numstr).toString().split('.');
+  //   if (numSplitArr.length < 2) {
+  //     numSplitArr.add("".padRight(fractionDigits, '0'));
+  //   }
+  //   if (!widget.enableSeparator && fractionDigits < 1) {
+  //     result = numSplitArr.first;
+  //   }
+  //   final List<String> digitList =
+  //       List.from(numSplitArr.first.characters, growable: false);
+  //   if (widget.enableSeparator) {
+  //     int len = digitList.length - 1;
+  //     final separateSymbol = widget.separateSymbol ?? ",";
+  //     if (separateSymbol.isNotEmpty) {
+  //       for (int index = 0, i = len; i >= 0; index++, i--)
+  //         if (index % widget.separateLength == 0 && i != len)
+  //           digitList[i] += separateSymbol;
+  //     }
+  //   }
+  //   // handle fraction digits
+  //   if (fractionDigits > 0) {
+  //     List<String> fractionList = List.from(numSplitArr.last.characters);
+  //     if (fractionList.length > fractionDigits) {
+  //       fractionList =
+  //           fractionList.take(fractionDigits).toList(growable: false);
+  //     } else {
+  //       final padRightLen = fractionDigits - fractionList.length;
+  //       //Equivalent to `padRight(padRightLen, "0")`
+  //       fractionList.addAll(List.generate(padRightLen, (index) => "0"));
+  //     }
+  //     final strbuff = StringBuffer()
+  //       ..writeAll(digitList)
+  //       ..write(widget.decimalSeparator)
+  //       ..writeAll(fractionList);
+  //     result = strbuff.toString();
+  //   } else {
+  //     result = digitList.join('');
+  //   }
+  //
+  //   return result;
+  // }
+
+  String getIndianNumberFormat(String numstr, {int fractionDigits = 2}) {
     String result;
     final String _numstr = isNegative ? numstr.replaceFirst("-", "") : numstr;
     final List<String> numSplitArr = num.parse(_numstr).toString().split('.');
@@ -568,16 +612,21 @@ class _AnimatedDigitWidgetState extends State<AnimatedDigitWidget>
     }
     final List<String> digitList =
         List.from(numSplitArr.first.characters, growable: false);
-    if (widget.enableSeparator) {
-      int len = digitList.length - 1;
-      final separateSymbol = widget.separateSymbol ?? ",";
-      if (separateSymbol.isNotEmpty) {
-        for (int index = 0, i = len; i >= 0; index++, i--)
-          if (index % widget.separateLength == 0 && i != len)
-            digitList[i] += separateSymbol;
+    if (digitList.length <= 3) {
+      result = digitList.join("");
+    } else {
+      int count = 3;
+      for (int i = digitList.length - 1; i >= 0; i--) {
+        if (count == 0) {
+          digitList[i] += ",";
+        }
+        count -= 1;
+        if (count == -1) {
+          count = 1;
+        }
       }
     }
-    // handle fraction digits
+
     if (fractionDigits > 0) {
       List<String> fractionList = List.from(numSplitArr.last.characters);
       if (fractionList.length > fractionDigits) {
@@ -596,7 +645,6 @@ class _AnimatedDigitWidgetState extends State<AnimatedDigitWidget>
     } else {
       result = digitList.join('');
     }
-
     return result;
   }
 
